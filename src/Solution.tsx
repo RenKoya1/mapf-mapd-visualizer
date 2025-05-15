@@ -5,6 +5,7 @@ export enum AgentState {
   CARRYING,
   DELIVERED,
   IDLE,
+  NONE,
 }
 export enum Orientation {
   NONE,
@@ -47,12 +48,12 @@ function orientationFromString(s: string): Orientation {
 export class Pose {
   public position: Coordinate = new Coordinate(0, 0);
   public orientation: Orientation = Orientation.NONE;
-  public state: AgentState = AgentState.IDLE;
+  public state: AgentState = AgentState.NONE;
 
   constructor(
     position: Coordinate = new Coordinate(0, 0),
     orientation: Orientation = Orientation.NONE,
-    state: AgentState = AgentState.IDLE
+    state: AgentState = AgentState.NONE
   ) {
     this.position = position;
     this.orientation = orientation;
@@ -68,7 +69,7 @@ export function parseSolution(text: string): Solution {
   const solution: Solution = [];
 
   const regex =
-    /\((\d+),(\d+),(?:([XY]_[A-Z]{4,5}),)?(PICKING|CARRYING|DELIVERED|IDLE)\)/g;
+    /\((\d+),(\d+)(?:,([XY]_[A-Z]{4,5}))?(?:,(PICKING|CARRYING|DELIVERED|IDLE|NONE))?\)/g;
 
   for (const line of lines) {
     const config: Config = [];
@@ -77,18 +78,17 @@ export function parseSolution(text: string): Solution {
       const x = parseInt(match[1], 10);
       const y = parseInt(match[2], 10);
       const o = orientationFromString(match[3] || ""); // may be undefined
-      const stateStr = match[4]; // always defined
+      const stateStr = match[4] || "NONE";
+
+      console.log(stateStr);
 
       if (x < 0 || y < 0) {
         throw new Error(`Invalid position: (${x}, ${y})`);
       }
 
       const coordinate = new Coordinate(x, y);
-
       const agentState = AgentState[stateStr as keyof typeof AgentState];
-      if (agentState === undefined) {
-        throw new Error(`Invalid agent state: ${stateStr}`);
-      }
+
       config.push(new Pose(coordinate, o, agentState));
     }
 

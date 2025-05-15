@@ -64,6 +64,8 @@ map
 
 The solution file specifies the paths agents will take. Format example:
 
+For MAPF:
+
 ```
 0:(0,0,Y_MINUS),
 1:(0,0,X_PLUS),
@@ -71,6 +73,29 @@ The solution file specifies the paths agents will take. Format example:
 3:(1,0,Y_PLUS),
 4:(1,1,Y_PLUS),
 5:(1,1,X_PLUS),
+```
+
+For MAPD
+
+```
+0:(18,26,PICKING),(29,21,PICKING),
+1:(17,26,PICKING),(29,22,PICKING),
+2:(16,26,CARRYING),(28,22,CARRYING),
+3:(15,26,CARRYING),(27,22,DELIVERED),
+4:(15,25,CARRYING),(26,22,IDLE),
+
+```
+
+Acceptable state is
+
+```
+export enum AgentState {
+  PICKING,
+  CARRYING,
+  DELIVERED,
+  IDLE,
+  NONE,
+}
 ```
 
 - Each line defines the agents' states at a particular timestep:

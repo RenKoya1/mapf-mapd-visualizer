@@ -209,8 +209,13 @@ const PixiApp = forwardRef(
       solution[0].forEach((_pose, agentId) => {
         let lastPickingPose: (typeof solution)[0][0] | null = null;
         let deliveredPose: (typeof solution)[0][0] | null = null;
+
         for (let t = currentTimestep + 1; t < solution.length; t++) {
           const pose = solution[t][agentId];
+          if (pose.state === AgentState.NONE) {
+            deliveredPose = solution[solution.length - 1][agentId];
+            break;
+          }
           if (pose.state === AgentState.IDLE) {
             break;
           }
@@ -372,7 +377,6 @@ const PixiApp = forwardRef(
 
     // Animate the solution
     const animateSolution = useCallback(() => {
-      console.log("Animating solution");
       if (app === null || viewport === null) return;
       if (tickerCallbackRef.current) {
         app.ticker.remove(tickerCallbackRef.current);
