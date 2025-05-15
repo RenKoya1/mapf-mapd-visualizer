@@ -5,6 +5,8 @@
 
 This repository hosts the web-based version of the MAPF (Multi-Agent Pathfinding) and MAPD (Multi-Agent Pickup and Delivery) Visualizer, adapted from the original [Kei18/mapf-visualizer](https://github.com/Kei18/mapf-visualizer). The app provides an interactive and intuitive way to visualize MAPF and MAPD solutions directly in your browser.
 
+> 🛠️ This project extends the functionality of [JustinShetty/mapf-visualizer](https://github.com/JustinShetty/mapf-visualizer) by adding full support for MAPD (Multi-Agent Pickup and Delivery) scenarios, including agent states such as `PICKING`, `CARRYING`, `DELIVERED`, and `IDLE`.
+
 This project runs entirely client-side and is built using [React](https://reactjs.org/) and [PixiJS](https://pixijs.com/).
 
 ## Features
